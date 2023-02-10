@@ -33,7 +33,7 @@ class Asset_Loader {
 
 	public static function admin_enqueue_scripts( $hook ) {
 
-		wp_enqueue_style( 'wsuwp-plugin-gutenberg-editor-styles' );
+		wp_enqueue_style( 'wsuwp-plugin-gutenberg-accessibility-styles' );
 
 	}
 
