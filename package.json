@@ -1,0 +1,12 @@
+{
+    "name": "wsuwp-plugin-gutenberg-accessibility",
+    "scripts": {
+        "start": "wp-scripts start assets/src/index.js --output-path=assets/dist/",
+        "build": "wp-scripts build assets/src/index.js --output-path=assets/dist/"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@wordpress/scripts": "^25.3.0"
+    }
+}
