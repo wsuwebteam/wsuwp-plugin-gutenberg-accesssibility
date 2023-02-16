@@ -66,13 +66,13 @@ const Report = (props) => {
                             <ReportTable
                                 type={section.label}
                                 logs={section.logs}
-                                emptyMessage={`0 ${section.label.toLowerCase()} to display.`}
+                                emptyMessage={`✅ 0 ${section.label.toLowerCase()} to display.`}
                             />
                         </div>
                     ))}
                 </>
             ) : error ? (
-                <p>{error}</p>
+                <p>💥 {error}</p>
             ) : (
                 <p>loading...</p>
             )}

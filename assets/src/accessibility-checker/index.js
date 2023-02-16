@@ -22,7 +22,7 @@ const AccessibilityChecker = () => {
 			const editor = select("core/editor");
 			return {
 				editor: editor,
-				postTitle: editor.getEditedPostAttribute("title"), // subscribing to changes here only for live feedback in panel
+				postTitle: editor.getEditedPostAttribute("title"), // subscribing to changes here so we receive live feedback in the panel
 				postId: editor.getCurrentPostId(),
 				editedPostContent: editor.getEditedPostContent(),
 				permalink: editor.getPermalink(),
