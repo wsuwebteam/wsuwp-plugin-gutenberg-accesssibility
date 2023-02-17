@@ -44,7 +44,7 @@ const linkTextCheck = (report, doc) => {
 
 		if (reportLinks.length > 0) {
 			const plural = reportLinks.length > 1 ? "s" : "";
-			report.errors.push({
+			report.warnings.push({
 				message: `${reportLinks.length} link${plural} containing the URL protocol (http://, https://) in the link text`,
 				detailsViewLabel: "Link text containing the URL protocol",
 				detailsView: detailsView.bind(
