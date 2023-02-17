@@ -1,5 +1,5 @@
 import "./missing-title";
-import "./missing-hrefs";
+import "./link-hrefs";
 import "./link-text";
 import "./image-alts";
 import "./heading-order";
