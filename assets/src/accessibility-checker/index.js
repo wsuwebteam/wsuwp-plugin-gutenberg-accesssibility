@@ -9,68 +9,69 @@ const { applyFilters } = wp.hooks;
 const { useSelect, useDispatch } = wp.data;
 
 const AccessibilityChecker = () => {
-    const report = {
-        errors: [],
-        alerts: [],
-        warnings: [],
-        data: {},
-    };
+	const report = {
+		errors: [],
+		alerts: [],
+		warnings: [],
+		data: {},
+	};
 
-    const { editPost } = useDispatch("core/editor");
-    const { postId, editedPostContent, permalink, isSaving } = useSelect(
-        (select) => {
-            const editor = select("core/editor");
-            return {
-                postId: editor.getCurrentPostId(),
-                editedPostContent: editor.getEditedPostContent(),
-                permalink: editor.getPermalink(),
-                isSaving: editor.isSavingPost() || editor.isAutosavingPost(),
-            };
-        }
-    );
+	const { editPost } = useDispatch("core/editor");
+	const { editor, postId, editedPostContent, permalink, isSaving } =
+		useSelect((select) => {
+			const editor = select("core/editor");
+			return {
+				editor: editor,
+				postTitle: editor.getEditedPostAttribute("title"), // subscribing to changes here so we receive live feedback in the panel
+				postId: editor.getCurrentPostId(),
+				editedPostContent: editor.getEditedPostContent(),
+				permalink: editor.getPermalink(),
+				isSaving: editor.isSavingPost() || editor.isAutosavingPost(),
+			};
+		});
 
-    const { html, isLoading, error } = useOutputMarkup(
-        postId,
-        editedPostContent
-    );
+	const { html, isLoading, error } = useOutputMarkup(
+		postId,
+		editedPostContent
+	);
 
-    if (html !== null) {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, "text/html");
+	if (html !== null) {
+		const parser = new DOMParser();
+		const doc = parser.parseFromString(html, "text/html");
 
-        applyFilters("wsu.Accessibility", report, doc);
+		applyFilters("wsu.Accessibility", report, doc, editor);
 
-        setTimeout(() => {
-            editPost({
-                meta: {
-                    wsuwp_accessibility_report: JSON.stringify(report),
-                },
-            });
-        }, 0);
-    }
+		setTimeout(() => {
+			editPost({
+				meta: {
+					wsuwp_accessibility_report: JSON.stringify(report),
+				},
+			});
+		}, 0);
+	}
 
-    return (
-        <ReportPanel
-            report={report}
-            isLoading={isLoading}
-            error={error}
-            permalink={permalink}
-        />
-    );
+	return (
+		<ReportPanel
+			report={report}
+			isLoading={isLoading}
+			error={error}
+			permalink={permalink}
+		/>
+	);
 };
 
 const AccessibilityCheckerInitiator = () => {
-    // const status = wp.data.select("core/editor").getCurrentPost().status;
-    // return status !== "auto-draft" && <AccessibilityChecker />;
+	// const status = wp.data.select("core/editor").getCurrentPost().status;
+	// return status !== "auto-draft" && <AccessibilityChecker />;
 
-    const lastRevisionId = wp.data
-        .select("core/editor")
-        .getCurrentPostLastRevisionId();
+	const lastRevisionId = wp.data
+		.select("core/editor")
+		.getCurrentPostLastRevisionId();
 
-    return lastRevisionId !== null && <AccessibilityChecker />;
+	return lastRevisionId !== null && <AccessibilityChecker />;
 };
 
 registerPlugin("wsu-plugin-accessibility", {
-    render: AccessibilityCheckerInitiator,
-    icon: "",
+	render: AccessibilityCheckerInitiator,
+	icon: "",
 });

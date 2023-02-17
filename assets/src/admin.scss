@@ -1,19 +1,22 @@
 .wsu-plugin-gutenberg-admin {
-    &-dot {
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        margin: 2px;
-        display: inline-block;
+	&-dot {
+		width: 14px;
+		height: 14px;
+		border-radius: 50%;
+		margin: 2px;
+		display: inline-block;
 
-        &--red {
-            background-color: #d42127;
-        }
-        &--orange {
-            background-color: #f67428;
-        }
-        &--yellow {
-            background-color: #f3b81c;
-        }
-    }
+		&--green {
+			background-color: #3fc21e;
+		}
+		&--red {
+			background-color: #d42127;
+		}
+		&--orange {
+			background-color: #f67428;
+		}
+		&--yellow {
+			background-color: #f3b81c;
+		}
+	}
 }
