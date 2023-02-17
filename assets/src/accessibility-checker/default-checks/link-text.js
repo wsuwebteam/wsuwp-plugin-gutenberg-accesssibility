@@ -95,6 +95,7 @@ const linkTextCheck = (report, doc) => {
 			"more here",
 			"more info",
 			"more",
+			"read more",
 			"see more info",
 			"see more information",
 			"see more",
