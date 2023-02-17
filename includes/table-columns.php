@@ -33,20 +33,27 @@ class Table_Columns {
 
 		if ( 'accessibility' === $column ) {
 			$report_string = get_post_meta( $post_id, 'wsuwp_accessibility_report', true );
+
 			if ( ! empty( $report_string ) ) {
 				$report = json_decode( $report_string );
 
-				if ( count( $report->errors ) > 0 ) {
-					echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--red"></span>';
-				}
+				if ( count( $report->errors ) === 0 && count( $report->alerts ) === 0 && count( $report->warnings ) === 0 ) {
+					echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--green"></span>';
+				} else {
+					if ( count( $report->errors ) > 0 ) {
+						echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--red"></span>';
+					}
 
-				if ( count( $report->alerts ) > 0 ) {
-					echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--orange"></span>';
-				}
+					if ( count( $report->alerts ) > 0 ) {
+						echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--orange"></span>';
+					}
 
-				if ( count( $report->warnings ) > 0 ) {
-					echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--yellow"></span>';
+					if ( count( $report->warnings ) > 0 ) {
+						echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--yellow"></span>';
+					}
 				}
+			} else {
+				echo '<span>No Data</span>';
 			}
 		}
 
