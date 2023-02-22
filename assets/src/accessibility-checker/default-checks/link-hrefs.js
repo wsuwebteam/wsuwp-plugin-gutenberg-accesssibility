@@ -54,7 +54,11 @@ const linkHrefsCheck = (report, doc) => {
 		report.errors.push({
 			message: `${missingHrefs.length} link${plural} with missing or invalid href${plural}`,
 			detailsViewLabel: "Links with missing or invalid hrefs",
-			detailsView: detailsView.bind(this, missingHrefs),
+			detailsView: detailsView.bind(
+				this,
+				missingHrefs,
+				"The link is invalid. Provide the correct URL for the link."
+			),
 		});
 	}
 
