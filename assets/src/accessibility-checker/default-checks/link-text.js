@@ -57,8 +57,9 @@ const linkTextCheck = (report, doc) => {
 	}
 
 	function checkForLongUrlText(report, links) {
+		// "^(https?://)?([a-zA-Z0-9-]+.[a-zA-Z]+)+/[a-zA-Z0-9/?=#.]+$"
 		const regex = new RegExp(
-			"^(https?://)?([a-zA-Z0-9-]+.[a-zA-Z]+)+/[a-zA-Z0-9/?=#.]+$"
+			/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}\/\S+$/
 		);
 
 		const reportLinks = links.filter((l) => {
@@ -95,6 +96,7 @@ const linkTextCheck = (report, doc) => {
 			"more here",
 			"more info",
 			"more",
+			"read more",
 			"see more info",
 			"see more information",
 			"see more",
