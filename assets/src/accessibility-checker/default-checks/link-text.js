@@ -118,7 +118,11 @@ const linkTextCheck = (report, doc) => {
 			report.alerts.push({
 				message: `${reportLinks.length} link${plural} with generic text`,
 				detailsViewLabel: "Links with generic text",
-				detailsView: detailsView.bind(this, reportLinks),
+				detailsView: detailsView.bind(
+					this,
+					reportLinks,
+					"The link text doesn't describe the destination or function of the link. The ambiguous link text does not make sense out of context."
+				),
 			});
 		}
 	}
