@@ -64,7 +64,7 @@ const imageAltsCheck = (report, doc) => {
 				this,
 				missingAlts,
 				false,
-				"The image is missing alternative text the describes the image content or function. Use an empty alt text only if the image is decorative."
+				"The image is missing alternative text that describes the image content or function. Use an empty alt text only if the image is decorative."
 			),
 		});
 	}

@@ -1,17 +1,31 @@
 const missingTitleCheck = (report, doc, editor) => {
-    const pageTitle = editor.getEditedPostAttribute("title");
+	const pageTitle = editor.getEditedPostAttribute("title");
 
-    if (pageTitle.trim() === "") {
-        report.errors.push({
-            message: `Missing page title`,
-        });
-    }
+	function detailsView() {
+		return (
+			<>
+				<p>
+					A unique descriptive page title helps people understand the
+					page's topic or purpose, especially for those using
+					assistive technology.
+				</p>
+			</>
+		);
+	}
 
-    return report;
+	if (pageTitle.trim() === "") {
+		report.errors.push({
+			message: `Missing page title`,
+			detailsViewLabel: "Missing page title",
+			detailsView: detailsView.bind(this),
+		});
+	}
+
+	return report;
 };
 
 wp.hooks.addFilter(
-    "wsu.Accessibility",
-    "wsuwp/accessibility-checker",
-    missingTitleCheck
+	"wsu.Accessibility",
+	"wsuwp/accessibility-checker",
+	missingTitleCheck
 );
