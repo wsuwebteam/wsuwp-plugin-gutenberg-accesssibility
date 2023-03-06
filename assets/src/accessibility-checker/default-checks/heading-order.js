@@ -12,7 +12,7 @@ const headingOrderCheck = (report, doc) => {
 				<p>
 					Use a hierarchical sequence of headings. Headings provide an
 					outline of your content and facilitate people navigating
-					through the page.
+					through the webpage.
 				</p>
 				<table className="wsu-gutenberg-accessibility-panel__details-table">
 					<thead>

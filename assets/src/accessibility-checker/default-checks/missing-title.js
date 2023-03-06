@@ -6,7 +6,7 @@ const missingTitleCheck = (report, doc, editor) => {
 			<>
 				<p>
 					A unique descriptive page title helps people understand the
-					page's topic or purpose, especially for those using
+					webpage's topic or purpose, especially for those using
 					assistive technology.
 				</p>
 			</>
