@@ -80,6 +80,12 @@ const Report = (props) => {
 		<>
 			{!isLoading && !error ? (
 				<>
+					<p>
+						Learn about the items checked by the{" "}
+						<a href="https://web.wsu.edu/web-training/plugin-training/wsuwp-gutenberg-accessibility/#accessibility-panel">
+							Accessibility & Usability Panel
+						</a>
+					</p>
 					{reportSections.map((section) => (
 						<div
 							key={`section-${section.label}`}

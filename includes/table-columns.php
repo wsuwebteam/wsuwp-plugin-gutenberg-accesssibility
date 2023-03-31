@@ -38,18 +38,18 @@ class Table_Columns {
 				$report = json_decode( $report_string );
 
 				if ( count( $report->errors ) === 0 && count( $report->alerts ) === 0 && count( $report->warnings ) === 0 ) {
-					echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--green">G</span>';
+					echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--green" title="Clear of Errors">C</span>';
 				} else {
 					if ( count( $report->errors ) > 0 ) {
-						echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--red">E</span>';
+						echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--red" title="Error">E</span>';
 					}
 
 					if ( count( $report->alerts ) > 0 ) {
-						echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--orange">A</span>';
+						echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--orange" title="Alert">A</span>';
 					}
 
 					if ( count( $report->warnings ) > 0 ) {
-						echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--yellow">W</span>';
+						echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--yellow" title="Warning">W</span>';
 					}
 				}
 			} else {
