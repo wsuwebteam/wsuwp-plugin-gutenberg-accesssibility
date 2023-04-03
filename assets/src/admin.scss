@@ -6,24 +6,21 @@
 		height: 20px;
 		line-height: 20px;
 		width: 20px;
-		color: white;
+		color: black;
 		font-size: 12px;
-		box-sizing: border-box;
+		text-align: center;
 
 		&--green {
-			padding-left: 6px;
 			background-color: #3fc21e;
 		}
 		&--red {
-			padding-left: 7px;
+			color: white;
 			background-color: #d42127;
 		}
 		&--orange {
-			padding-left: 6.5px;
 			background-color: #f67428;
 		}
 		&--yellow {
-			padding-left: 4.5px;
 			background-color: #f3b81c;
 		}
 	}

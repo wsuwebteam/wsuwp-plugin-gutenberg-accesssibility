@@ -1,4 +1,4 @@
-<?php namespace WSUWP\Plugin\Gutenberg_Accessiblity;
+<?php namespace WSUWP\Plugin\Gutenberg_Accessibility;
 
 class Rest_API {
 
@@ -17,6 +17,16 @@ class Rest_API {
 			array(
 				'methods'             => 'POST',
 				'callback'            => array( __CLASS__, 'parse_gutenberg_content' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+
+		register_rest_route(
+			'wsu-gutenberg-accessibility/v1',
+			'update-accessibility-report',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( __CLASS__, 'update_accessibility_report' ),
 				'permission_callback' => '__return_true',
 			)
 		);
@@ -62,6 +72,24 @@ class Rest_API {
 		return new \WP_REST_Response(
 			array(
 				'html' => $content,
+			),
+			200
+		);
+
+	}
+
+	public static function update_accessibility_report( \WP_REST_Request $request ) {
+
+		$params  = $request->get_body_params();
+		$post_id = $params['postId'];
+		$report  = json_decode( $params['report'] );
+
+		update_metadata( 'post', $post_id, '_wsuwp_accessibility_report', $report );
+
+		return new \WP_REST_Response(
+			array(
+				'post_id' => $post_id,
+				'report'  => $report,
 			),
 			200
 		);

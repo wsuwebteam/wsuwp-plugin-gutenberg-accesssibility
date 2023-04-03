@@ -1,22 +1,17 @@
 // FIXME: Doesn't work on the first save because the endpoint requires a postId
-// FIXME: If the editor clicks save before the report finishes loading the meta data will be lost. Could lock the save buttons during load?
 import ReportPanel from "./report-panel";
 import { useOutputMarkup } from "./hooks";
 import "./default-checks";
 
 const registerPlugin = wp.plugins.registerPlugin;
 const { applyFilters } = wp.hooks;
-const { useSelect, useDispatch } = wp.data;
+const { useEffect, useRef, useState } = wp.element;
+const { useSelect } = wp.data;
 
 const AccessibilityChecker = () => {
-	const report = {
-		errors: [],
-		alerts: [],
-		warnings: [],
-		data: {},
-	};
+	const [report, setReport] = useState(() => getEmptyReport());
+	const abortControllerRef = useRef(null);
 
-	const { editPost } = useDispatch("core/editor");
 	const { editor, postId, editedPostContent, permalink, isSaving } =
 		useSelect((select) => {
 			const editor = select("core/editor");
@@ -35,20 +30,55 @@ const AccessibilityChecker = () => {
 		editedPostContent
 	);
 
-	if (html !== null) {
+	function getEmptyReport() {
+		return {
+			errors: [],
+			alerts: [],
+			warnings: [],
+			data: {},
+		};
+	}
+
+	function updateReport(html, editor) {
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(html, "text/html");
+		const newReport = getEmptyReport();
 
-		applyFilters("wsu.Accessibility", report, doc, editor);
+		applyFilters("wsu.Accessibility", newReport, doc, editor);
 
-		setTimeout(() => {
-			editPost({
-				meta: {
-					wsuwp_accessibility_report: JSON.stringify(report),
-				},
-			});
-		}, 0);
+		setReport(newReport);
 	}
+
+	useEffect(() => {
+		if (isSaving) {
+			abortControllerRef.current?.abort();
+
+			if (typeof AbortController !== "undefined") {
+				abortControllerRef.current = new AbortController();
+			}
+
+			fetch(
+				WSUWP_DATA.siteUrl +
+					`/wp-json/wsu-gutenberg-accessibility/v1/update-accessibility-report`,
+				{
+					method: "POST",
+					body: new URLSearchParams({
+						postId: postId,
+						report: JSON.stringify(report),
+					}),
+					signal: abortControllerRef.current?.signal,
+				}
+			);
+		}
+	}, [isSaving]);
+
+	useEffect(() => {
+		if (html === null) {
+			return;
+		}
+
+		updateReport(html, editor);
+	}, [html]);
 
 	return (
 		<ReportPanel
