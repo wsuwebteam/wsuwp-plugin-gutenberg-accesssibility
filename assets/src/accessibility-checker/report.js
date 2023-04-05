@@ -113,8 +113,8 @@ const Report = (props) => {
 			)}
 
 			<p>
-				Review your webpage in WAVE for other accessibilty errors and
-				alerts not caught by our Accessibility & Usabilty Panel.
+				Review your webpage in WAVE for other accessibility errors and
+				alerts not caught by our Accessibility & Usability Panel.
 			</p>
 			<ExternalLink
 				className="wsu-gutenberg-accessibility-panel__wave-link"
