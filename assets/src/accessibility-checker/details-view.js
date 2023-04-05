@@ -28,7 +28,7 @@ const DetailsView = (props) => {
 	}
 
 	function getAnchorProp() {
-		return WSUWP_DATA.wpVersion.includes("6.1")
+		return WSUWP_ACCESSIBILITY_PLUGIN_DATA.wpVersion.includes("6.1")
 			? {
 					anchor: toggleButton.current.closest(
 						".wsu-gutenberg-accessibility-panel__report-table-row"

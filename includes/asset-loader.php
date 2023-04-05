@@ -35,6 +35,15 @@ class Asset_Loader {
 
 		wp_enqueue_style( 'wsuwp-plugin-gutenberg-accessibility-styles' );
 
+		if ( 'post.php' === $hook || 'post-new.php' === $hook ) {
+			$script  = 'const WSUWP_ACCESSIBILITY_PLUGIN_DATA = {';
+			$script .= 'siteUrl: "' . site_url() . '",';
+			$script .= 'wpVersion: "' . get_bloginfo( 'version' ) . '",';
+			$script .= '};';
+
+			wp_add_inline_script( 'wsuwp-plugin-gutenberg-accessibility-editor-scripts', $script, 'before' );
+		}
+
 	}
 
 

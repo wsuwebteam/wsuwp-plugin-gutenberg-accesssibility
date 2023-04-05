@@ -58,7 +58,7 @@ const AccessibilityChecker = () => {
 			}
 
 			fetch(
-				WSUWP_DATA.siteUrl +
+				WSUWP_ACCESSIBILITY_PLUGIN_DATA.siteUrl +
 					`/wp-json/wsu-gutenberg-accessibility/v1/update-accessibility-report`,
 				{
 					method: "POST",
