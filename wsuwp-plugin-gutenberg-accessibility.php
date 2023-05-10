@@ -3,7 +3,7 @@
  * Plugin Name: WSUWP Gutenberg Accessibility
  * Plugin URI: https://github.com/wsuwebteam/wsuwp-plugin-gutenberg-accessibility
  * Description: Adds an accessibility checker panel to the Gutenberg editor.
- * Version: 1.2.2
+ * Version: 1.2.3
  * Requires PHP: 7.3
  * Author: Washington State University, Dan White
  * Author URI: https://web.wsu.edu/
