@@ -46,6 +46,15 @@ const imageAltsCheck = (report, doc) => {
 		const link = i.closest("a");
 		const alt = i.alt.trim();
 
+		// skip if aria-hidden is true
+		if (
+			link &&
+			link.ariaHidden &&
+			link.ariaHidden.toLowerCase() === "true"
+		) {
+			return;
+		}
+
 		if (!alt && !link) {
 			missingAlts.push(i);
 		} else if (link && link.tabIndex !== -1 && !alt) {
