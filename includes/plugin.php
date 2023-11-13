@@ -2,7 +2,7 @@
 
 class Plugin {
 
-	private static $version = '1.2.3';
+	private static $version = '1.3.0';
 
 	public static function get( $property ) {
 
@@ -20,6 +20,8 @@ class Plugin {
 			case 'template_dir':
 				return plugin_dir_path( dirname( __FILE__ ) ) . '/templates';
 
+			case 'supported_post_types':
+				return array( 'post', 'page' );
 			default:
 				return '';
 
