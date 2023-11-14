@@ -9,6 +9,7 @@ class Table_Columns {
 			'_wsuwp_accessibility_report',
 			array(
 				'type'          => 'object',
+				'default'       => null,
 				'show_in_rest'  => true,
 				'single'        => true,
 				'auth_callback' => function () {
