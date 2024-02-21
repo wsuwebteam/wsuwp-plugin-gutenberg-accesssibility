@@ -55,9 +55,12 @@ class Rest_API {
 			while ( $query->have_posts() ) {
 				$query->the_post();
 
-				$post_type                  = get_post_type();
-				$content                    = apply_filters( 'the_content', $gutenberg_content );
-				$is_post_title_hidden       = \WSUWP\Theme\WDS\Theme::get_wsu_option( 'template_' . str_replace( '-', '_', $post_type ), 'displayPageTitle', '' ) === 'hide';
+				$post_type = get_post_type();
+				$content   = apply_filters( 'the_content', $gutenberg_content );
+
+				$is_post_title_hidden       = method_exists( '\WSUWP\Theme\WDS\Theme', 'get_wsu_option' )
+					? \WSUWP\Theme\WDS\Theme::get_wsu_option( 'template_' . str_replace( '-', '_', $post_type ), 'displayPageTitle', '' ) === 'hide'
+					: false;
 				$has_page_header_in_content = self::has_page_header_in_content( $content );
 
 				if ( ! $is_post_title_hidden && ! $has_page_header_in_content ) {
