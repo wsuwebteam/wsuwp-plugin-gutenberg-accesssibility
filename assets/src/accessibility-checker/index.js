@@ -1,9 +1,8 @@
 // FIXME: Doesn't work on the first save because the endpoint requires a postId
 import ReportPanel from "./report-panel";
 import Report from "./report";
-import { useOutputMarkup } from "./hooks";
+import useOutputMarkup from "./hooks/use-output-markup";
 import useFetch from "./hooks/use-fetch";
-import "./default-checks";
 
 const registerPlugin = wp.plugins.registerPlugin;
 const { useEffect, useRef, useState } = wp.element;

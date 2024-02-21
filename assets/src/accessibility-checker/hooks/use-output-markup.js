@@ -1,5 +1,4 @@
 const { useState, useEffect, useRef } = wp.element;
-const { useSelect } = wp.data;
 
 const useOutputMarkup = function (postId, gutenbergContent) {
 	const [output, setOutput] = useState({
@@ -69,23 +68,4 @@ const useOutputMarkup = function (postId, gutenbergContent) {
 	return output;
 };
 
-const usePostSaved = () => {
-	const is_saving = useSelect((select) =>
-		select("core/editor").isSavingPost()
-	);
-	const [was_saving, setWasSaving] = useState(is_saving);
-
-	if (was_saving) {
-		if (!is_saving) {
-			setWasSaving(false);
-
-			return true;
-		}
-	} else if (is_saving) {
-		setWasSaving(true);
-	}
-
-	return false;
-};
-
-export { useOutputMarkup, usePostSaved };
+export default useOutputMarkup;
