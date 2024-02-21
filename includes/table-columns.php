@@ -38,23 +38,51 @@ class Table_Columns {
 			if ( ! empty( $report_data ) ) {
 				$report = gettype( $report_data ) === 'string' ? json_decode( $report_data ) : $report_data;
 
-				if ( count( $report->errors ) === 0 && count( $report->alerts ) === 0 && count( $report->warnings ) === 0 ) {
-					echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--green" title="Clear of Errors">C</span>';
-				} else {
-					if ( count( $report->errors ) > 0 ) {
-						echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--red" title="Error">E</span>';
-					}
-
-					if ( count( $report->alerts ) > 0 ) {
-						echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--orange" title="Alert">A</span>';
-					}
-
-					if ( count( $report->warnings ) > 0 ) {
-						echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--yellow" title="Warning">W</span>';
-					}
-				}
+				is_array( $report->errors ) ? self::old_render_custom_column( $report ) : self::render_custom_column( $report );
 			} else {
 				echo '<span>No Data</span>';
+			}
+		}
+
+	}
+
+
+	private static function render_custom_column( $report ) {
+
+		if ( count( $report->errors->items ) === 0 && count( $report->alerts->items ) === 0 && count( $report->warnings->items ) === 0 ) {
+			echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--green" title="Clear of Errors">C</span>';
+		} else {
+			if ( count( $report->errors->items ) > 0 ) {
+				echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--red" title="Error">E</span>';
+			}
+
+			if ( count( $report->alerts->items ) > 0 ) {
+				echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--orange" title="Alert">A</span>';
+			}
+
+			if ( count( $report->warnings->items ) > 0 ) {
+				echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--yellow" title="Warning">W</span>';
+			}
+		}
+
+	}
+
+
+	private static function old_render_custom_column( $report ) {
+
+		if ( count( $report->errors ) === 0 && count( $report->alerts ) === 0 && count( $report->warnings ) === 0 ) {
+			echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--green" title="Clear of Errors">C</span>';
+		} else {
+			if ( count( $report->errors ) > 0 ) {
+				echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--red" title="Error">E</span>';
+			}
+
+			if ( count( $report->alerts ) > 0 ) {
+				echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--orange" title="Alert">A</span>';
+			}
+
+			if ( count( $report->warnings ) > 0 ) {
+				echo '<span class="wsu-plugin-gutenberg-admin-dot wsu-plugin-gutenberg-admin-dot--yellow" title="Warning">W</span>';
 			}
 		}
 

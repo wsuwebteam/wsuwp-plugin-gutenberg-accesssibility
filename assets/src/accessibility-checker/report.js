@@ -16,11 +16,13 @@ const ReportTable = (props) => {
 									>
 										<td>{l.message}</td>
 										<td>
-											{l.detailsView && (
-												<DetailsView
-													label={l.detailsViewLabel}
-												>
-													<l.detailsView />
+											{l.detailsHtml && (
+												<DetailsView>
+													<div
+														dangerouslySetInnerHTML={{
+															__html: l.detailsHtml,
+														}}
+													/>
 												</DetailsView>
 											)}
 										</td>
@@ -51,7 +53,7 @@ const Report = (props) => {
 				</p>
 			),
 			icon: "dismiss",
-			logs: report.errors,
+			logs: report.errors.items,
 		},
 		{
 			label: "Alerts",
@@ -61,7 +63,7 @@ const Report = (props) => {
 				</p>
 			),
 			icon: "warning",
-			logs: report.alerts,
+			logs: report.alerts.items,
 		},
 		{
 			label: "Warnings",
@@ -72,7 +74,7 @@ const Report = (props) => {
 				</p>
 			),
 			icon: "flag",
-			logs: report.warnings,
+			logs: report.warnings.items,
 		},
 	];
 

@@ -1,10 +1,11 @@
 // FIXME: Doesn't work on the first save because the endpoint requires a postId
 import ReportPanel from "./report-panel";
+import Report from "./report";
 import { useOutputMarkup } from "./hooks";
+import useFetch from "./hooks/use-fetch";
 import "./default-checks";
 
 const registerPlugin = wp.plugins.registerPlugin;
-const { applyFilters } = wp.hooks;
 const { useEffect, useRef, useState } = wp.element;
 const { useSelect } = wp.data;
 
@@ -12,11 +13,10 @@ const AccessibilityChecker = () => {
 	const [report, setReport] = useState(() => getEmptyReport());
 	const abortControllerRef = useRef(null);
 
-	const { editor, postId, editedPostContent, permalink, isSaving } =
+	const { postTitle, postId, editedPostContent, permalink, isSaving } =
 		useSelect((select) => {
 			const editor = select("core/editor");
 			return {
-				editor: editor,
 				postTitle: editor.getEditedPostAttribute("title"), // subscribing to changes here so we receive live feedback in the panel
 				postId: editor.getCurrentPostId(),
 				editedPostContent: editor.getEditedPostContent(),
@@ -32,21 +32,16 @@ const AccessibilityChecker = () => {
 
 	function getEmptyReport() {
 		return {
-			errors: [],
-			alerts: [],
-			warnings: [],
-			data: {},
+			errors: {
+				items: [],
+			},
+			alerts: {
+				items: [],
+			},
+			warnings: {
+				items: [],
+			},
 		};
-	}
-
-	function updateReport(html, editor) {
-		const parser = new DOMParser();
-		const doc = parser.parseFromString(html, "text/html");
-		const newReport = getEmptyReport();
-
-		applyFilters("wsu.Accessibility", newReport, doc, editor);
-
-		setReport(newReport);
 	}
 
 	useEffect(() => {
@@ -72,23 +67,65 @@ const AccessibilityChecker = () => {
 		}
 	}, [isSaving]);
 
-	useEffect(() => {
-		if (html === null) {
-			return;
-		}
-
-		updateReport(html, editor);
-	}, [html]);
-
 	return (
-		<ReportPanel
-			report={report}
-			isLoading={isLoading}
-			error={error}
-			permalink={permalink}
-		/>
+		<ReportPanel>
+			{!isLoading && !error && html ? (
+				<ReportGenerator
+					html={html}
+					postTitle={postTitle}
+					permalink={permalink}
+					report={report}
+					setReport={setReport}
+				/>
+			) : !isLoading && !error && !html ? (
+				<p>No HTML to Review</p>
+			) : error ? (
+				<p>💥 {error}</p>
+			) : isLoading ? (
+				<p>loading...</p>
+			) : (
+				""
+			)}
+		</ReportPanel>
 	);
 };
+
+function ReportGenerator(props) {
+	const { html, report, setReport, permalink, postTitle } = props;
+
+	const { data, isLoading, error } = useFetch(
+		"https://api.web.wsu.edu/accessibility-checker/v1/get-report",
+		{
+			method: "POST",
+			mode: "cors",
+			cache: "no-cache",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				title: postTitle,
+				html: html,
+			}),
+		},
+		[html, postTitle]
+	);
+
+	useEffect(() => {
+		if (data && !error) {
+			console.log(data);
+			setReport(data);
+		}
+	}, [data]);
+
+	return (
+		<Report
+			report={report}
+			permalink={permalink}
+			isLoading={isLoading}
+			error={error}
+		/>
+	);
+}
 
 const AccessibilityCheckerInitiator = () => {
 	// const status = wp.data.select("core/editor").getCurrentPost().status;

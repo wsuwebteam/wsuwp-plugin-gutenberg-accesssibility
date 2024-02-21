@@ -55,13 +55,14 @@ class Rest_API {
 			while ( $query->have_posts() ) {
 				$query->the_post();
 
-				// $blocks = parse_blocks( $gutenberg_content );
-				// foreach ( $blocks as $block ) {
-				// $content         .= render_block( $block );
-				// $blocks_content[] = str_replace( "\n", '', render_block( $block ) );
-				// }
+				$post_type                  = get_post_type();
+				$content                    = apply_filters( 'the_content', $gutenberg_content );
+				$is_post_title_hidden       = \WSUWP\Theme\WDS\Theme::get_wsu_option( 'template_' . str_replace( '-', '_', $post_type ), 'displayPageTitle', '' ) === 'hide';
+				$has_page_header_in_content = self::has_page_header_in_content( $content );
 
-				$content = apply_filters( 'the_content', $gutenberg_content );
+				if ( ! $is_post_title_hidden && ! $has_page_header_in_content ) {
+					$content = '<h1>' . get_the_title() . '</h1>' . $content;
+				}
 			}
 
 			$content = str_replace( "\n", '', $content );
@@ -93,6 +94,29 @@ class Rest_API {
 			),
 			200
 		);
+
+	}
+
+
+	private static function has_page_header_in_content( $content ) {
+
+		$search_strings = array(
+			'<h1',
+			'tag":"h1"',
+			'wsuwp/pagetitle',
+			'Tag":"h1"',
+		);
+
+		foreach ( $search_strings as $search_string ) {
+
+			if ( false !== strpos( $content, $search_string ) ) {
+
+				return true;
+
+			}
+		}
+
+		return false;
 
 	}
 

@@ -28,13 +28,18 @@ const DetailsView = (props) => {
 	}
 
 	function getAnchorProp() {
-		return WSUWP_ACCESSIBILITY_PLUGIN_DATA.wpVersion.includes("6.1")
+		return WSUWP_ACCESSIBILITY_PLUGIN_DATA.wpVersion.startsWith("6.")
 			? {
+					// onFocusOutside: toggle,
+					focusOnMount: true,
+					placement: "left-start",
+					offset: 12,
 					anchor: toggleButton.current.closest(
 						".wsu-gutenberg-accessibility-panel__report-table-row"
 					),
 			  }
 			: {
+					position: "bottom left",
 					getAnchorRect: () => {
 						const rect =
 							toggleButton.current
@@ -68,17 +73,10 @@ const DetailsView = (props) => {
 			{isOpen && (
 				<Popover
 					className="wsu-gutenberg-accessibility-panel__details-view"
-					headerTitle={props.label}
 					onClose={toggle}
-					position="bottom left"
 					{...getAnchorProp()}
 				>
-					<h4 className="wsu-gutenberg-accessibility-panel__details-heading">
-						{props.label}
-					</h4>
-					<div className="wsu-gutenberg-accessibility-panel__details-content">
-						{props.children}
-					</div>
+					{props.children}
 				</Popover>
 			)}
 		</>
