@@ -111,7 +111,6 @@ function ReportGenerator(props) {
 
 	useEffect(() => {
 		if (data && !error) {
-			console.log(data);
 			setReport(data);
 		}
 	}, [data]);
